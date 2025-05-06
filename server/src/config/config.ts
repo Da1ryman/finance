@@ -9,7 +9,7 @@ interface ConfigApp {
 
 const config: ConfigApp = {
   port: Number(process.env.PORT) || 3000,
-  URL_BD: process.env.URL_BD || 'err',
+  URL_BD: String(process.env.URL_BD),
 };
 
 export default config;
