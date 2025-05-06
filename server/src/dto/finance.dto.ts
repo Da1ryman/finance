@@ -3,4 +3,5 @@ export interface IFinance {
   category: string;
   description: string;
   amount: number;
+  userId: string;
 }
