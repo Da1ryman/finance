@@ -5,8 +5,8 @@ import { IFinance } from '../dto/finance.dto';
 class FinanceController {
   async getAllByUserId(req: Request, res: Response) {
     try {
-      const { id } = req.params;
-      const finance = await financeService.historyUser(id);
+      const { userId } = req.params;
+      const finance = await financeService.historyUser(userId);
 
       res.json(finance);
     } catch (error) {
@@ -27,9 +27,12 @@ class FinanceController {
 
   async putByPostId(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { financeId } = req.params;
       const finance: IFinance = req.body;
-      const updateFinance = await financeService.updateFinance(finance, id);
+      const updateFinance = await financeService.updateFinance(
+        finance,
+        financeId,
+      );
 
       res.json(updateFinance);
     } catch (error) {
@@ -39,8 +42,8 @@ class FinanceController {
 
   async deleteAll(req: Request, res: Response) {
     try {
-      const { id } = req.body;
-      const deleteAll = await financeService.deleteAllById(id);
+      const { userId } = req.body;
+      const deleteAll = await financeService.deleteAllById(userId);
 
       res.json(deleteAll);
     } catch (error) {
@@ -50,8 +53,8 @@ class FinanceController {
 
   async delete(req: Request, res: Response) {
     try {
-      const { id } = req.params;
-      const deleteFinance = await financeService.deleteById(id);
+      const { financeId } = req.params;
+      const deleteFinance = await financeService.deleteById(financeId);
 
       res.json(deleteFinance);
     } catch (error) {

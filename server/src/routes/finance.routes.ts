@@ -3,8 +3,8 @@ import financeController from '../controllers/finance.controller';
 
 export const routerFinance = Router();
 
-routerFinance.get('/finance/:id', financeController.getAllByUserId);
+routerFinance.get('/finance/:userId', financeController.getAllByUserId);
 routerFinance.post('/finance/', financeController.postFinance);
-routerFinance.put('/finance/:id', financeController.putByPostId);
+routerFinance.put('/finance/:financeId', financeController.putByPostId);
 routerFinance.delete('/finance/', financeController.deleteAll);
-routerFinance.delete('/finance/:id', financeController.delete);
+routerFinance.delete('/finance/:financeId', financeController.delete);

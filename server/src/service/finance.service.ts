@@ -26,10 +26,10 @@ class FinanceService {
     }
   }
 
-  async updateFinance(finance: IFinance, id: string) {
+  async updateFinance(finance: IFinance, financeId: string) {
     try {
       const updateFinance = await Finance.findByIdAndUpdate(
-        { _id: id },
+        { _id: financeId },
         finance,
       );
 
