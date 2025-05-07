@@ -9,6 +9,8 @@ class UserService {
       return newUser;
     } catch (error) {
       console.error(error);
+
+      throw error;
     }
   }
 
@@ -19,6 +21,8 @@ class UserService {
       return allUsers;
     } catch (error) {
       console.error(error);
+
+      throw error;
     }
   }
 
@@ -29,6 +33,20 @@ class UserService {
       return user;
     } catch (error) {
       console.error(error);
+
+      throw error;
+    }
+  }
+
+  async userByEmail(email: string) {
+    try {
+      const user = await User.findOne({ email });
+
+      return user;
+    } catch (error) {
+      console.error(error);
+
+      throw error;
     }
   }
 }

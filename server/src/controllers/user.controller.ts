@@ -7,7 +7,7 @@ class UserController {
       const user = req.body;
       const newUser = await userService.create(user);
 
-      res.json(newUser);
+      res.status(201).json(newUser);
     } catch (error) {
       console.error(error);
     }
