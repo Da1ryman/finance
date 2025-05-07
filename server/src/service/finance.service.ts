@@ -28,12 +28,9 @@ class FinanceService {
 
   async updateFinance(finance: IFinance, financeId: string) {
     try {
-      const updateFinance = await Finance.findByIdAndUpdate(
-        { _id: financeId },
-        finance,
-      );
+      await Finance.findByIdAndUpdate({ _id: financeId }, finance);
 
-      return updateFinance;
+      return finance;
     } catch (error) {
       console.error(error);
 
