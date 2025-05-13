@@ -1,21 +1,16 @@
-export interface Finance {
+export interface FinanceRequest {
   type: string;
   category: string;
   description: string;
   amount: number;
   userId: string;
+}
+
+export interface Finance extends FinanceRequest {
   createdAt: Date;
   updatedAt: Date;
   _id: string;
   __V: number;
-}
-
-export interface FinanceChange {
-  type: string;
-  category: string;
-  description: string;
-  amount: number;
-  userId: string;
 }
 
 export interface FinanceState {

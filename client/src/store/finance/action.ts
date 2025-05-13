@@ -6,7 +6,7 @@ import {
   postNewFinanceByUserId,
   putFinanceById,
 } from '../../api/FinanceApi';
-import type { Finance, FinanceChange } from '../../types/finance';
+import type { Finance, FinanceRequest } from '../../types/finance';
 
 export const fetchFinanceHistory = createAsyncThunk(
   'finance/fetchFinanceHistory',
@@ -25,7 +25,7 @@ export const fetchFinanceHistory = createAsyncThunk(
 
 export const fetchFinanceCreate = createAsyncThunk(
   'finance/fetchFinanceCreate',
-  async (finance: FinanceChange) => {
+  async (finance: FinanceRequest) => {
     try {
       const financeCreate = await postNewFinanceByUserId(finance);
 
@@ -62,10 +62,10 @@ export const fetchFinanceChange = createAsyncThunk(
 
 export const fetchFinanceDelete = createAsyncThunk(
   'finance/fetchFinanceDelete',
-  async ({ financeId, userId }: { financeId: string; userId: string }) => {
+  async (finance: { financeId: string; userId: string }) => {
     try {
-      await deleteOneFinance(financeId);
-      const financeHistory = await getAllFinanceByUserId(userId);
+      await deleteOneFinance(finance.financeId);
+      const financeHistory = await getAllFinanceByUserId(finance.userId);
 
       return financeHistory;
     } catch (error) {

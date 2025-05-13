@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { type Finance, type FinanceChange } from '../types/finance';
+import { type Finance, type FinanceRequest } from '../types/finance';
 import type {
   LoginUserData,
   SignupUserData,
@@ -22,7 +22,7 @@ export const getAllFinanceByUserId = async (id: string) => {
   return response.data;
 };
 
-export const postNewFinanceByUserId = async (finance: FinanceChange) => {
+export const postNewFinanceByUserId = async (finance: FinanceRequest) => {
   const response = await axios.post<Finance>(
     apiConfig.url + apiConfig.finance,
     finance,
@@ -31,7 +31,7 @@ export const postNewFinanceByUserId = async (finance: FinanceChange) => {
   return response.data;
 };
 
-export const putFinanceById = async (id: string, finance: FinanceChange) => {
+export const putFinanceById = async (id: string, finance: FinanceRequest) => {
   const response = await axios.put<Finance>(
     apiConfig.url + apiConfig.finance + id,
     finance,
