@@ -26,7 +26,7 @@ const fulfilled = (state: FinanceState) => {
 
 const financeSlice = createSlice({
   name: 'finance',
-  initialState: initialState,
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder

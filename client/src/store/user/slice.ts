@@ -3,7 +3,6 @@ import { initialState } from './initialState';
 import { fetchUserLogin, fetchUserSignup } from './action';
 import type { UserState } from '../../types/auth';
 import axios from 'axios';
-import type { UndefinedOrString } from '../../types/helper';
 
 const pending = (state: UserState) => {
   state.loadingAuth = true;
@@ -24,11 +23,7 @@ const setingAxiosAuthToken = (token: string) => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
-const userLogin = (
-  token: UndefinedOrString,
-  id: UndefinedOrString,
-  name: UndefinedOrString,
-) => {
+const userLogin = (token?: string, id?: string, name?: string) => {
   if (token && id && name) {
     localStorage.setItem('token', token);
     localStorage.setItem('id', id);
@@ -39,7 +34,7 @@ const userLogin = (
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: initialState,
+  initialState,
   reducers: {
     logout(state) {
       state.authInfo = null;

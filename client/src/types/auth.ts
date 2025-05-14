@@ -10,9 +10,9 @@ export type SignupUserData = {
 };
 
 export type User = {
-  id: string | undefined;
-  name: string | undefined;
-  token: string | undefined;
+  id?: string;
+  name?: string;
+  token?: string;
 };
 
 export type UserCreated = {
