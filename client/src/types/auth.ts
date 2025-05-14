@@ -1,29 +1,29 @@
-export interface LoginUserData {
+export type LoginUserData = {
   email: string;
   password: string;
-}
+};
 
-export interface SignupUserData {
-  email: string;
-  name: string;
-  password: string;
-}
-
-export interface User {
-  id: string;
-  name: string;
-  token: string;
-}
-
-export interface UserCreated {
+export type SignupUserData = {
   email: string;
   name: string;
   password: string;
-}
+};
 
-export interface UserState {
+export type User = {
+  id: string | undefined;
+  name: string | undefined;
+  token: string | undefined;
+};
+
+export type UserCreated = {
+  email: string;
+  name: string;
+  password: string;
+};
+
+export type UserState = {
   errorAuth: boolean;
   loadingAuth: boolean;
   authInfo: User | null;
   errorAuthMessage?: string;
-}
+};

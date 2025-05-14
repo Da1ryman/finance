@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userInitialState } from './initialState';
+import { initialState } from './initialState';
 import { fetchUserLogin, fetchUserSignup } from './action';
 import type { UserState } from '../../types/auth';
 import axios from 'axios';
+import type { UndefinedOrString } from '../../types/helper';
 
 const pending = (state: UserState) => {
   state.loadingAuth = true;
@@ -19,9 +20,26 @@ const rejected = (state: UserState) => {
   state.errorAuth = true;
 };
 
+const setingAxiosAuthToken = (token: string) => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+};
+
+const userLogin = (
+  token: UndefinedOrString,
+  id: UndefinedOrString,
+  name: UndefinedOrString,
+) => {
+  if (token && id && name) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('id', id);
+    localStorage.setItem('name', name);
+    setingAxiosAuthToken(token);
+  }
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: userInitialState,
+  initialState: initialState,
   reducers: {
     logout(state) {
       state.authInfo = null;
@@ -36,8 +54,7 @@ const userSlice = createSlice({
 
       if (id && name && token) {
         state.authInfo = { token, id, name };
-        axios.defaults.headers.common['Authorization'] =
-          'Bearer ' + state.authInfo.token;
+        setingAxiosAuthToken(token);
       }
     },
   },
@@ -45,37 +62,29 @@ const userSlice = createSlice({
     builder
       .addCase(fetchUserLogin.pending, pending)
       .addCase(fetchUserLogin.rejected, (state, action) => {
-        rejected(state);
         state.errorAuthMessage = action.error.message;
+
+        rejected(state);
       })
       .addCase(fetchUserLogin.fulfilled, (state, action) => {
-        fulfilled(state);
         state.authInfo = action.payload;
-        if (state.authInfo.token) {
-          localStorage.setItem('token', state.authInfo.token);
-          localStorage.setItem('id', state.authInfo.id);
-          localStorage.setItem('name', state.authInfo.name);
-          axios.defaults.headers.common['Authorization'] =
-            'Bearer ' + state.authInfo.token;
-        }
+
+        fulfilled(state);
+        userLogin(state.authInfo.token, state.authInfo.id, state.authInfo.name);
       });
 
     builder
       .addCase(fetchUserSignup.pending, pending)
       .addCase(fetchUserSignup.rejected, (state, action) => {
-        rejected(state);
         state.errorAuthMessage = action.error.message;
+
+        rejected(state);
       })
       .addCase(fetchUserSignup.fulfilled, (state, action) => {
-        fulfilled(state);
         state.authInfo = action.payload;
-        if (state.authInfo.token) {
-          localStorage.setItem('token', state.authInfo.token);
-          localStorage.setItem('id', state.authInfo.id);
-          localStorage.setItem('name', state.authInfo.name);
-          axios.defaults.headers.common['Authorization'] =
-            'Bearer ' + state.authInfo.token;
-        }
+
+        fulfilled(state);
+        userLogin(state.authInfo.token, state.authInfo.id, state.authInfo.name);
       });
   },
 });

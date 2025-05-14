@@ -6,12 +6,12 @@ import { store } from './store/store';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Provider store={store}>
         <Routes>
           <Route path='/' element={<>Маршрут</>} />
         </Routes>
-      </BrowserRouter>
-    </Provider>
+      </Provider>
+    </BrowserRouter>
   </StrictMode>,
 );

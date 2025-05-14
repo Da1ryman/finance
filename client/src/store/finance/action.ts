@@ -7,18 +7,17 @@ import {
   putFinanceById,
 } from '../../api/FinanceApi';
 import type { Finance, FinanceRequest } from '../../types/finance';
+import { errorHandling } from '../../helper/errorHandling';
 
 export const fetchFinanceHistory = createAsyncThunk(
   'finance/fetchFinanceHistory',
-  async (idUser: string) => {
+  async (userId: string) => {
     try {
-      const financeHistory = await getAllFinanceByUserId(idUser);
+      const financeHistory = await getAllFinanceByUserId(userId);
 
       return financeHistory;
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      throw errorHandling(error);
     }
   },
 );
@@ -31,9 +30,7 @@ export const fetchFinanceCreate = createAsyncThunk(
 
       return financeCreate;
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      throw errorHandling(error);
     }
   },
 );
@@ -53,9 +50,7 @@ export const fetchFinanceChange = createAsyncThunk(
 
       return financeChange;
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      throw errorHandling(error);
     }
   },
 );
@@ -69,9 +64,7 @@ export const fetchFinanceDelete = createAsyncThunk(
 
       return financeHistory;
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      throw errorHandling(error);
     }
   },
 );
@@ -85,9 +78,7 @@ export const fetchFinanceDeleteAll = createAsyncThunk(
 
       return financeHistory;
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      throw errorHandling(error);
     }
   },
 );

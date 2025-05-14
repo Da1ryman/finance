@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { type Finance, type FinanceRequest } from '../types/finance';
+import type { Finance, FinanceRequest } from '../types/finance';
 import type {
   LoginUserData,
   SignupUserData,
@@ -16,7 +16,7 @@ const apiConfig = {
 
 export const getAllFinanceByUserId = async (id: string) => {
   const response = await axios.get<Finance[]>(
-    apiConfig.url + apiConfig.finance + id,
+    `${apiConfig.url}${apiConfig.finance}${id}`,
   );
 
   return response.data;
@@ -24,7 +24,7 @@ export const getAllFinanceByUserId = async (id: string) => {
 
 export const postNewFinanceByUserId = async (finance: FinanceRequest) => {
   const response = await axios.post<Finance>(
-    apiConfig.url + apiConfig.finance,
+    `${apiConfig.url}${apiConfig.finance}`,
     finance,
   );
 
@@ -33,7 +33,7 @@ export const postNewFinanceByUserId = async (finance: FinanceRequest) => {
 
 export const putFinanceById = async (id: string, finance: FinanceRequest) => {
   const response = await axios.put<Finance>(
-    apiConfig.url + apiConfig.finance + id,
+    `${apiConfig.url}${apiConfig.finance}${id}`,
     finance,
   );
 
@@ -42,7 +42,7 @@ export const putFinanceById = async (id: string, finance: FinanceRequest) => {
 
 export const deleteAllFinance = async (userId: string) => {
   const response = await axios.delete(
-    apiConfig.url + apiConfig.finance + 'all/',
+    `${apiConfig.url}${apiConfig.finance}all`,
     { data: { userId } },
   );
 
@@ -51,7 +51,7 @@ export const deleteAllFinance = async (userId: string) => {
 
 export const deleteOneFinance = async (financeId: string) => {
   const response = await axios.delete(
-    apiConfig.url + apiConfig.finance + financeId,
+    `${apiConfig.url}${apiConfig.finance}${financeId}`,
   );
 
   return response.data;
@@ -59,7 +59,7 @@ export const deleteOneFinance = async (financeId: string) => {
 
 export const loginUser = async (loginInfo: LoginUserData) => {
   const response = await axios.post<User>(
-    apiConfig.url + apiConfig.authLogin,
+    `${apiConfig.url}${apiConfig.authLogin}`,
     loginInfo,
   );
 
@@ -68,7 +68,7 @@ export const loginUser = async (loginInfo: LoginUserData) => {
 
 export const signupUser = async (signupInfo: SignupUserData) => {
   const response = await axios.post<UserCreated>(
-    apiConfig.url + apiConfig.authSignup,
+    `${apiConfig.url}${apiConfig.authLogin}`,
     signupInfo,
   );
 

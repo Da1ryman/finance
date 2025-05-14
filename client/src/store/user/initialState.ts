@@ -1,6 +1,6 @@
 import type { UserState } from '../../types/auth';
 
-export const userInitialState: UserState = {
+export const initialState: UserState = {
   loadingAuth: false,
   errorAuth: false,
   authInfo: null,

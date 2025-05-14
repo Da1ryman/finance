@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { financeInitialState } from './initialState';
+import { initialState } from './initialState';
 import {
   fetchFinanceChange,
   fetchFinanceCreate,
@@ -26,33 +26,36 @@ const fulfilled = (state: FinanceState) => {
 
 const financeSlice = createSlice({
   name: 'finance',
-  initialState: financeInitialState,
+  initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchFinanceHistory.pending, pending)
       .addCase(fetchFinanceHistory.rejected, rejected)
       .addCase(fetchFinanceHistory.fulfilled, (state, action) => {
-        fulfilled(state);
         state.financeHistory = action.payload;
+
+        fulfilled(state);
       });
 
     builder
       .addCase(fetchFinanceChange.pending, pending)
       .addCase(fetchFinanceChange.rejected, rejected)
       .addCase(fetchFinanceChange.fulfilled, (state, action) => {
-        fulfilled(state);
         state.financeHistory.map((finance) =>
           finance._id === action.payload._id ? action.payload : finance,
         );
+
+        fulfilled(state);
       });
 
     builder
       .addCase(fetchFinanceCreate.pending, pending)
       .addCase(fetchFinanceCreate.rejected, rejected)
       .addCase(fetchFinanceCreate.fulfilled, (state, action) => {
-        fulfilled(state);
         state.financeHistory.push(action.payload);
+
+        fulfilled(state);
       });
 
     builder
@@ -67,8 +70,9 @@ const financeSlice = createSlice({
       .addCase(fetchFinanceDeleteAll.pending, pending)
       .addCase(fetchFinanceDeleteAll.rejected, rejected)
       .addCase(fetchFinanceDeleteAll.fulfilled, (state, action) => {
-        fulfilled(state);
         state.financeHistory = action.payload;
+
+        fulfilled(state);
       });
   },
 });

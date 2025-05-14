@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { LoginUserData, SignupUserData } from '../../types/auth';
 import { loginUser, signupUser } from '../../api/FinanceApi';
+import { errorHandling } from '../../helper/errorHandling';
 
 export const fetchUserLogin = createAsyncThunk(
   'user/fetchUserLogin',
@@ -10,9 +11,7 @@ export const fetchUserLogin = createAsyncThunk(
 
       return userLogin;
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      throw errorHandling(error);
     }
   },
 );
@@ -29,9 +28,7 @@ export const fetchUserSignup = createAsyncThunk(
 
       return userLogin;
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      throw errorHandling(error);
     }
   },
 );
