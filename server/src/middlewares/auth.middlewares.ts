@@ -12,7 +12,7 @@ class AuthMiddleware {
 
         next();
       } else {
-        res.status(403);
+        res.status(403).json('No auth');
       }
     } catch (error) {
       res.status(403).json(error);

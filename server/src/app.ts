@@ -5,10 +5,18 @@ import { routerFinance } from './routes/finance.routes';
 import { routerUser } from './routes/user.routes';
 import { routerAuth } from './routes/auth.routes';
 import authMiddlewares from './middlewares/auth.middlewares';
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 
 app.use('/api/finance/', authMiddlewares.checkingJWT, routerFinance);
 app.use('/api/users/', authMiddlewares.checkingJWT, routerUser);

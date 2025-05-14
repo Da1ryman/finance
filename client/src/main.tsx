@@ -1,7 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 import { PrivateRoute } from './utile/PrivateRoute';
+
 import { MainPage } from './page/MainPage';
 import { ChartPage } from './page/ChartPage';
 import { LoginPage } from './page/LoginPage';
@@ -10,6 +13,7 @@ import { SignupPage } from './page/SignupPage';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+     <Provider store={store}>
       <Routes>
         <Route element={<PrivateRoute />}>
           <Route path='/' element={<MainPage />} />
