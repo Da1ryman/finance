@@ -8,18 +8,18 @@ import {
 import { fetchUserLogin } from '../store/user/action';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { useState } from 'react';
 
 export const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
   const handleNavigate = useNavigate();
 
   const { loadingAuth } = useAppSelector((state) => state.user);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
 
     await dispatch(fetchUserLogin({ email, password }));
     handleNavigate('/');
@@ -30,21 +30,21 @@ export const LoginForm = () => {
       <TextField
         label='Почта'
         type='email'
+        name='email'
         fullWidth
         margin='normal'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
         required
       />
+
       <TextField
         label='Пароль'
         type='password'
+        name='password'
         fullWidth
         margin='normal'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
         required
       />
+
       <Typography variant='subtitle1' align='center'>
         Введите пароль и почту.
         <br />
@@ -56,6 +56,7 @@ export const LoginForm = () => {
           сюда.
         </Link>
       </Typography>
+
       <Button
         type='submit'
         fullWidth

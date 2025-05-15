@@ -8,19 +8,19 @@ import {
 import { fetchUserSignup } from '../store/user/action';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { useState } from 'react';
 
 export const SignupForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const dispatch = useAppDispatch();
   const handleNavigate = useNavigate();
 
   const { loadingAuth } = useAppSelector((state) => state.user);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    const name = formData.get('name') as string;
 
     await dispatch(fetchUserSignup({ email, password, name }));
     handleNavigate('/');
@@ -31,30 +31,27 @@ export const SignupForm = () => {
       <TextField
         label='Почта'
         type='email'
+        name='email'
         fullWidth
         margin='normal'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
         required
       />
 
       <TextField
         label='Логин'
         type='text'
+        name='name'
         fullWidth
         margin='normal'
-        value={name}
-        onChange={(e) => setName(e.target.value)}
         required
       />
 
       <TextField
         label='Пароль'
         type='password'
+        name='password'
         fullWidth
         margin='normal'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
         required
       />
 
