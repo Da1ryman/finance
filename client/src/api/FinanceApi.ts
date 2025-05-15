@@ -68,7 +68,7 @@ export const loginUser = async (loginInfo: LoginUserData) => {
 
 export const signupUser = async (signupInfo: SignupUserData) => {
   const response = await axios.post<UserCreated>(
-    `${apiConfig.url}${apiConfig.authLogin}`,
+    `${apiConfig.url}${apiConfig.authSignup}`,
     signupInfo,
   );
 
