@@ -19,6 +19,7 @@ export const MainPage = () => {
           <BackupTableIcon sx={{ fontSize: '50px' }} /> Таблица{' '}
           {financeHistory.length}
         </Typography>
+
         <TableFinance />
       </>
     </SidePanelLayout>

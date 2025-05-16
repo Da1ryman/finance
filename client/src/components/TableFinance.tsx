@@ -57,7 +57,9 @@ export const TableFinance = () => {
   };
 
   const handleConfirmDeleteAll = async () => {
-    if (!authInfo?.id) return;
+    if (!authInfo?.id) {
+      return;
+    }
 
     try {
       setIsDeletingAll(true);
@@ -95,8 +97,9 @@ export const TableFinance = () => {
       !newFinance.type ||
       !newFinance.category ||
       !newFinance.amount
-    )
+    ) {
       return;
+    }
 
     try {
       setIsCreating(true);

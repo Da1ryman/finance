@@ -79,6 +79,7 @@ export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
             <AreaChartIcon sx={{ fontSize: '20px' }} />
             <Typography variant='h6'>FINANCE</Typography>
           </Box>
+
           <Button onClick={toggleDrawer} sx={{ color: 'white' }}>
             <ChevronLeftIcon
               sx={{
@@ -88,13 +89,17 @@ export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
             />
           </Button>
         </Box>
+
         <Divider sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }} />
+
         {open && userName && (
           <Box sx={{ p: 2, textAlign: 'center' }}>
             <Typography variant='h5'>{userName}</Typography>
           </Box>
         )}
+
         <Divider sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }} />
+
         <List>
           <ListItem
             sx={{
@@ -124,6 +129,7 @@ export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
             </ListItemIcon>
             {open && <ListItemText primary='Финансы' />}
           </ListItem>
+
           <ListItem
             sx={{
               p: 0,
@@ -152,6 +158,7 @@ export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
             </ListItemIcon>
             {open && <ListItemText primary='Диаграммы' />}
           </ListItem>
+
           <ListItem
             sx={{
               p: 0,

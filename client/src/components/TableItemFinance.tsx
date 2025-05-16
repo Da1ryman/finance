@@ -183,6 +183,7 @@ export const TableItemFinance = () => {
                       <CheckIcon />
                     )}
                   </IconButton>
+
                   <IconButton
                     color='error'
                     onClick={handleCancelEdit}
@@ -200,6 +201,7 @@ export const TableItemFinance = () => {
                   >
                     <EditIcon />
                   </IconButton>
+
                   <IconButton
                     color='error'
                     onClick={() => handleDeleteClick(finance._id)}
@@ -219,6 +221,7 @@ export const TableItemFinance = () => {
         onClose={() => setDeleteDialogOpen(false)}
       >
         <DialogTitle>Удалить эту запись?</DialogTitle>
+
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>Отмена</Button>
           <Button
