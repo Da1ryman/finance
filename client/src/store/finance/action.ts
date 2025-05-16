@@ -40,13 +40,14 @@ export const fetchFinanceChange = createAsyncThunk(
   async (finance: Finance) => {
     try {
       const { _id, type, category, description, amount, userId } = finance;
-      const financeChange = await putFinanceById(_id, {
+      await putFinanceById(_id, {
         type,
         category,
         description,
         amount,
         userId,
       });
+      const financeChange = await getAllFinanceByUserId(userId);
 
       return financeChange;
     } catch (error) {
