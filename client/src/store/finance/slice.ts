@@ -42,9 +42,7 @@ const financeSlice = createSlice({
       .addCase(fetchFinanceChange.pending, pending)
       .addCase(fetchFinanceChange.rejected, rejected)
       .addCase(fetchFinanceChange.fulfilled, (state, action) => {
-        state.financeHistory.map((finance) =>
-          finance._id === action.payload._id ? action.payload : finance,
-        );
+        state.financeHistory = action.payload;
 
         fulfilled(state);
       });
