@@ -3,40 +3,29 @@ import { useAppSelector } from '../store/store';
 import { useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import type { FinanceRequest } from '../types/finance';
 import { FinanceTable } from './FinanceTable';
 import { DialogDeleteAll } from './DialogDeleteAll';
-import { DialogCreate, type FinanceRequestWithoutUserId } from './DialogCreate';
+import { CustomModal } from '../another/CustomModal';
+import { CreateFinance } from './CreateFinance';
+import { useCreateFinance } from '../hooks/finance/useCreateFinance';
 
 export const FinanceComponent = () => {
   const { loading, financeHistory } = useAppSelector((state) => state.finance);
-  const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
-  const [isCreating, setIsCreating] = useState(false);
   const [isDeletingAll, setIsDeletingAll] = useState(false);
-  const [newFinance, setNewFinance] = useState<FinanceRequestWithoutUserId>({
-    type: '',
-    category: '',
-    description: '',
-    amount: 0,
-  });
+
+  const {
+    newFinance,
+    isCreating,
+    handleFieldChange,
+    handleCreateFinance,
+    addDialogOpen,
+    handleAddDialogClose,
+    handleAddDialogOpen,
+  } = useCreateFinance();
 
   const handleDeleteAllClick = () => {
     setDeleteAllDialogOpen(true);
-  };
-
-  const handleAddClick = () => {
-    setAddDialogOpen(true);
-  };
-
-  const handleFieldChange = (
-    field: keyof FinanceRequest,
-    value: string | number,
-  ) => {
-    setNewFinance((prev) => ({
-      ...prev,
-      [field]: field === 'amount' ? Number(value) : value,
-    }));
   };
 
   return (
@@ -47,7 +36,7 @@ export const FinanceComponent = () => {
             variant='outlined'
             color='primary'
             startIcon={<AddIcon />}
-            onClick={handleAddClick}
+            onClick={handleAddDialogOpen}
             disabled={loading}
           >
             Добавить запись
@@ -73,14 +62,40 @@ export const FinanceComponent = () => {
         <FinanceTable />
       </Paper>
 
-      <DialogCreate
-        setNewFinance={setNewFinance}
-        setAddDialogOpen={setAddDialogOpen}
-        setIsCreating={setIsCreating}
-        isCreating={isCreating}
-        addDialogOpen={addDialogOpen}
-        newFinance={newFinance}
-        handleFieldChange={handleFieldChange}
+      <CustomModal
+        title='Добавить новую запись?'
+        dialogOpen={addDialogOpen}
+        dialogClose={handleAddDialogClose}
+        content={
+          <CreateFinance
+            isPending={isCreating}
+            handleFieldChange={handleFieldChange}
+            newFinance={newFinance}
+          />
+        }
+        action={
+          <>
+            <Button onClick={handleAddDialogClose} disabled={isCreating}>
+              Отмена
+            </Button>
+
+            <Button
+              onClick={handleCreateFinance}
+              color='primary'
+              disabled={
+                isCreating ||
+                !newFinance.type ||
+                !newFinance.category ||
+                !newFinance.amount
+              }
+              startIcon={
+                isCreating ? <CircularProgress size={24} /> : <AddIcon />
+              }
+            >
+              Добавить
+            </Button>
+          </>
+        }
       />
 
       <DialogDeleteAll
