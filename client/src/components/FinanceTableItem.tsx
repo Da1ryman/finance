@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DialogDelete } from '../another/DialogDelete';
+import { DialogDelete } from './DialogDelete';
 
 export const FinanceTableItem = () => {
   const { financeHistory, loading } = useAppSelector((state) => state.finance);

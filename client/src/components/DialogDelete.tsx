@@ -1,7 +1,8 @@
-import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchFinanceDelete } from '../store/finance/action';
+import { CustomModal } from '../another/CustomModal';
 
 interface DialogDeleteProps {
   setDeleteDialogOpen: (open: boolean) => void;
@@ -37,20 +38,27 @@ export const DialogDelete = ({
     }
   };
 
+  const handleDeleteDialogClose = () => {
+    setDeleteDialogOpen(false);
+  };
   return (
-    <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-      <DialogTitle>Удалить эту запись?</DialogTitle>
+    <CustomModal
+      dialogClose={handleDeleteDialogClose}
+      dialogOpen={deleteDialogOpen}
+      action={
+        <>
+          <Button onClick={handleDeleteDialogClose}>Отмена</Button>
 
-      <DialogActions>
-        <Button onClick={() => setDeleteDialogOpen(false)}>Отмена</Button>
-        <Button
-          onClick={handleConfirmDelete}
-          color='error'
-          startIcon={<DeleteIcon />}
-        >
-          Удалить
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <Button
+            onClick={handleConfirmDelete}
+            color='error'
+            startIcon={<DeleteIcon />}
+          >
+            Удалить
+          </Button>
+        </>
+      }
+      title='Удалить эту запись?'
+    />
   );
 };

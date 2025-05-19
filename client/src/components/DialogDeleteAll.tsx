@@ -1,13 +1,8 @@
-import {
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-} from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { fetchFinanceDeleteAll } from '../store/finance/action';
 import { useAppDispatch, useAppSelector } from '../store/store';
+import { CustomModal } from '../another/CustomModal';
 
 interface DialogDeleteAllProps {
   deleteAllDialogOpen: boolean;
@@ -46,29 +41,32 @@ export const DialogDeleteAll = ({
   };
 
   return (
-    <Dialog open={deleteAllDialogOpen} onClose={handleDeleteAllDialogClose}>
-      <DialogTitle>Удалить все записи?</DialogTitle>
+    <CustomModal
+      title='Удалить все записи?'
+      dialogOpen={deleteAllDialogOpen}
+      dialogClose={handleDeleteAllDialogClose}
+      action={
+        <>
+          <Button onClick={handleDeleteAllDialogClose} disabled={isDeletingAll}>
+            Отмена
+          </Button>
 
-      <DialogActions>
-        <Button onClick={handleDeleteAllDialogClose} disabled={isDeletingAll}>
-          Отмена
-        </Button>
-
-        <Button
-          onClick={handleConfirmDeleteAll}
-          color='error'
-          disabled={isDeletingAll}
-          startIcon={
-            isDeletingAll ? (
-              <CircularProgress size={24} color='inherit' />
-            ) : (
-              <DeleteForeverIcon />
-            )
-          }
-        >
-          Удалить
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <Button
+            onClick={handleConfirmDeleteAll}
+            color='error'
+            disabled={isDeletingAll}
+            startIcon={
+              isDeletingAll ? (
+                <CircularProgress size={24} color='inherit' />
+              ) : (
+                <DeleteForeverIcon />
+              )
+            }
+          >
+            Удалить
+          </Button>
+        </>
+      }
+    />
   );
 };

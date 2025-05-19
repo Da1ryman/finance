@@ -5,11 +5,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import type { FinanceRequest } from '../types/finance';
 import { FinanceTable } from './FinanceTable';
-import { DialogDeleteAll } from '../another/DialogDeleteAll';
-import {
-  DialogCreate,
-  type FinanceRequestWithoutUserId,
-} from '../another/DialogCreate';
+import { DialogDeleteAll } from './DialogDeleteAll';
+import { DialogCreate, type FinanceRequestWithoutUserId } from './DialogCreate';
 
 export const FinanceComponent = () => {
   const { loading, financeHistory } = useAppSelector((state) => state.finance);
