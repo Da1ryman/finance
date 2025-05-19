@@ -1,5 +1,4 @@
 import {
-  Button,
   TableCell,
   TableRow,
   TextField,
@@ -7,26 +6,21 @@ import {
   IconButton,
   InputAdornment,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogTitle,
 } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../store/store';
 import { useState } from 'react';
 import type { Finance } from '../types/finance';
-import {
-  fetchFinanceChange,
-  fetchFinanceDelete,
-} from '../store/finance/action';
+import { fetchFinanceChange } from '../store/finance/action';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { DialogDelete } from '../another/DialogDelete';
 
-export const TableItemFinance = () => {
+export const FinanceTableItem = () => {
   const { financeHistory, loading } = useAppSelector((state) => state.finance);
-  const { authInfo } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editedFields, setEditedFields] = useState<Partial<Finance>>({});
   const [isSaving, setIsSaving] = useState(false);
@@ -77,24 +71,6 @@ export const TableItemFinance = () => {
   const handleDeleteClick = (id: string) => {
     setItemToDelete(id);
     setDeleteDialogOpen(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (!itemToDelete || !authInfo?.id) return;
-
-    try {
-      await dispatch(
-        fetchFinanceDelete({
-          financeId: itemToDelete,
-          userId: authInfo.id,
-        }),
-      ).unwrap();
-    } catch (error) {
-      console.error('Failed to delete item:', error);
-    } finally {
-      setDeleteDialogOpen(false);
-      setItemToDelete(null);
-    }
   };
 
   return (
@@ -216,23 +192,12 @@ export const TableItemFinance = () => {
         </TableRow>
       ))}
 
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-      >
-        <DialogTitle>Удалить эту запись?</DialogTitle>
-
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Отмена</Button>
-          <Button
-            onClick={handleConfirmDelete}
-            color='error'
-            startIcon={<DeleteIcon />}
-          >
-            Удалить
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogDelete
+        setDeleteDialogOpen={setDeleteDialogOpen}
+        setItemToDelete={setItemToDelete}
+        deleteDialogOpen={deleteDialogOpen}
+        itemToDelete={itemToDelete}
+      />
     </>
   );
 };

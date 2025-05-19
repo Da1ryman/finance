@@ -1,11 +1,13 @@
 import { Typography } from '@mui/material';
-import { SidePanelLayout } from '../layout/SidePanelLayout';
+import { SidePanelLayout } from '../layout/sidepanellayout/SidePanelLayout';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { useAppSelector } from '../store/store';
-import { TableFinance } from '../components/TableFinance';
+import { FinanceComponent } from '../components/FinanceComponent';
 
 export const MainPage = () => {
-  const { financeHistory } = useAppSelector((state) => state.finance);
+  const financeHistory = useAppSelector(
+    (state) => state.finance.financeHistory,
+  );
 
   return (
     <SidePanelLayout>
@@ -15,12 +17,11 @@ export const MainPage = () => {
           component='h1'
           sx={{ mt: '100px', ml: '100px' }}
         >
-          {' '}
           <BackupTableIcon sx={{ fontSize: '50px' }} /> Таблица{' '}
           {financeHistory.length}
         </Typography>
 
-        <TableFinance />
+        <FinanceComponent />
       </>
     </SidePanelLayout>
   );
