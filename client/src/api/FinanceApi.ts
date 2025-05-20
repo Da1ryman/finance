@@ -14,9 +14,9 @@ const apiConfig = {
   authSignup: 'signup/',
 };
 
-export const getAllFinanceByUserId = async (id: string) => {
+export const getAllFinanceByUserId = async () => {
   const response = await axios.get<Finance[]>(
-    `${apiConfig.url}${apiConfig.finance}${id}`,
+    `${apiConfig.url}${apiConfig.finance}`,
   );
 
   return response.data;
@@ -40,10 +40,9 @@ export const putFinanceById = async (id: string, finance: FinanceRequest) => {
   return response.data;
 };
 
-export const deleteAllFinance = async (userId: string) => {
+export const deleteAllFinance = async () => {
   const response = await axios.delete(
     `${apiConfig.url}${apiConfig.finance}all`,
-    { data: { userId } },
   );
 
   return response.data;

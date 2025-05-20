@@ -8,12 +8,13 @@ import {
 import { fetchUserLogin } from '../store/user/action';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
+import { routes } from '../routes';
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch();
   const handleNavigate = useNavigate();
 
-  const { loadingAuth } = useAppSelector((state) => state.user);
+  const loadingAuth = useAppSelector((state) => state.user.loadingAuth);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,7 +51,7 @@ export const LoginForm = () => {
         <br />
         Если у вас нет аккаунта нажмите{' '}
         <Link
-          onClick={() => handleNavigate('/signup')}
+          onClick={() => handleNavigate(routes.signup)}
           sx={{ cursor: 'pointer' }}
         >
           сюда.

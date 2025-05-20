@@ -11,9 +11,9 @@ import { errorHandling } from '../../helper/errorHandling';
 
 export const fetchFinanceHistory = createAsyncThunk(
   'finance/fetchFinanceHistory',
-  async (userId: string) => {
+  async () => {
     try {
-      const financeHistory = await getAllFinanceByUserId(userId);
+      const financeHistory = await getAllFinanceByUserId();
 
       return financeHistory;
     } catch (error) {
@@ -39,14 +39,14 @@ export const fetchFinanceChange = createAsyncThunk(
   'finance/fetchFinanceChange',
   async (finance: Finance) => {
     try {
-      const { _id, type, category, description, amount, userId } = finance;
-      const financeChange = await putFinanceById(_id, {
+      const { _id, type, category, description, amount } = finance;
+      await putFinanceById(_id, {
         type,
         category,
         description,
         amount,
-        userId,
       });
+      const financeChange = await getAllFinanceByUserId();
 
       return financeChange;
     } catch (error) {
@@ -60,7 +60,7 @@ export const fetchFinanceDelete = createAsyncThunk(
   async (finance: { financeId: string; userId: string }) => {
     try {
       await deleteOneFinance(finance.financeId);
-      const financeHistory = await getAllFinanceByUserId(finance.userId);
+      const financeHistory = await getAllFinanceByUserId();
 
       return financeHistory;
     } catch (error) {
@@ -71,10 +71,10 @@ export const fetchFinanceDelete = createAsyncThunk(
 
 export const fetchFinanceDeleteAll = createAsyncThunk(
   'finance/fetchFinanceDeleteAll',
-  async (userId: string) => {
+  async () => {
     try {
-      await deleteAllFinance(userId);
-      const financeHistory = await getAllFinanceByUserId(userId);
+      await deleteAllFinance();
+      const financeHistory = await getAllFinanceByUserId();
 
       return financeHistory;
     } catch (error) {

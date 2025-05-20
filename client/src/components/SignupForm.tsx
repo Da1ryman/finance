@@ -8,12 +8,23 @@ import {
 import { fetchUserSignup } from '../store/user/action';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
+import { routes } from '../routes';
+import { useEffect } from 'react';
 
 export const SignupForm = () => {
   const dispatch = useAppDispatch();
-  const handleNavigate = useNavigate();
+  const navigate = useNavigate();
 
-  const { loadingAuth } = useAppSelector((state) => state.user);
+  const { loadingAuth, authInfo } = useAppSelector((state) => state.user);
+
+  const handleNavigate = () => {
+    navigate(routes.login);
+  };
+  useEffect(() => {
+    if (authInfo) {
+      navigate(routes.main);
+    }
+  }, [authInfo, navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,8 +33,11 @@ export const SignupForm = () => {
     const password = formData.get('password') as string;
     const name = formData.get('name') as string;
 
-    await dispatch(fetchUserSignup({ email, password, name }));
-    handleNavigate('/');
+    try {
+      await dispatch(fetchUserSignup({ email, password, name })).unwrap();
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
   };
 
   return (
@@ -59,10 +73,7 @@ export const SignupForm = () => {
         Введите логин, пароль и почту.
         <br />
         Если у вас есть аккаунта нажмите{' '}
-        <Link
-          onClick={() => handleNavigate('/login')}
-          sx={{ cursor: 'pointer' }}
-        >
+        <Link onClick={handleNavigate} sx={{ cursor: 'pointer' }}>
           сюда.
         </Link>
       </Typography>

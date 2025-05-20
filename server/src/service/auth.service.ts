@@ -4,6 +4,13 @@ import userService from './user.service';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+interface DecodedJWT {
+  id: string;
+  name: string;
+  iat?: number;
+  exp?: number;
+}
+
 class AuthService {
   async signup(user: IUser) {
     try {
@@ -34,9 +41,13 @@ class AuthService {
         const checkPassword = await bcrypt.compare(password, user.password);
 
         if (checkPassword) {
-          const token = jwt.sign({ email, password }, config.secret, {
-            expiresIn: '7d',
-          });
+          const token = jwt.sign(
+            { id: user._id, name: user.name },
+            config.secret,
+            {
+              expiresIn: '7d',
+            },
+          );
 
           return { id: user._id, name: user.name, token };
         } else {
@@ -52,11 +63,23 @@ class AuthService {
     }
   }
 
-  async verifyToken(token: string) {
+  verifyToken(token: string) {
     try {
       const decoded = jwt.verify(token, config.secret);
 
       return decoded;
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  }
+
+  getUserIdByToken(token: string) {
+    try {
+      const { id } = jwt.verify(token, config.secret) as DecodedJWT;
+
+      return id;
     } catch (error) {
       console.error(error);
 
