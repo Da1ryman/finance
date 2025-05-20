@@ -21,7 +21,7 @@ export const useCreateFinance = () => {
 
   const handleAddDialogClose = () => {
     setAddDialogOpen(false);
-    setNewFinance({ type: '', category: '', description: '', amount: 0 });
+    setNewFinance(initialState);
   };
 
   const handleAddDialogOpen = () => {

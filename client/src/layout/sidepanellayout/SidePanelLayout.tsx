@@ -25,7 +25,7 @@ import {
   getListItemStyles,
   styles,
 } from './SidePanelLayout.style';
-import { customRoutes } from '../../routes';
+import { routes } from '../../routes';
 
 export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
   const [open, setOpen] = useState(true);
@@ -46,7 +46,7 @@ export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate(customRoutes.login);
+    navigate(routes.login);
   };
 
   return (
@@ -76,7 +76,7 @@ export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
         <List>
           <ListItem
             sx={getListItemStyles(activeItem, 'Финансы')}
-            onClick={() => handleListItemClick('Финансы', customRoutes.main)}
+            onClick={() => handleListItemClick('Финансы', routes.main)}
           >
             <ListItemIcon sx={getListItemIconStyles(open)}>
               <AttachMoneyIcon />
@@ -87,7 +87,7 @@ export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
 
           <ListItem
             sx={getListItemStyles(activeItem, 'Диаграммы')}
-            onClick={() => handleListItemClick('Диаграммы', customRoutes.chart)}
+            onClick={() => handleListItemClick('Диаграммы', routes.chart)}
           >
             <ListItemIcon sx={getListItemIconStyles(open)}>
               <PieChartIcon />

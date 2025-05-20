@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { FinanceTable } from './FinanceTable';
 import { useCreateFinance } from '../hooks/finance/useCraeteFinance';
 import { CreateFinance } from './CreateFinance';
-import { CustomModal } from '../another/CustomModal';
+import { CustomModal } from '../ui/CustomModal';
 import { CreateFinanceAction } from './CreateFinanceAction';
 import { useDeleteAllFinance } from '../hooks/finance/useDeleteAllFinance';
 import { DeleteAllFinanceAction } from './DeleteAllFinanceAction';

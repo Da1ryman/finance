@@ -1,4 +1,4 @@
-export const customRoutes = {
+export const routes = {
   login: '/login',
   signup: '/signup',
   main: '/',

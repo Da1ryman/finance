@@ -10,7 +10,7 @@ import { MainPage } from './page/MainPage';
 import { ChartPage } from './page/ChartPage';
 import { LoginPage } from './page/LoginPage';
 import { SignupPage } from './page/SignupPage';
-import { customRoutes } from './routes';
+import { routes } from './routes';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,14 +19,14 @@ createRoot(document.getElementById('root')!).render(
         <AppProvider branding={{ title: 'Finance' }}>
           <Routes>
             <Route element={<PrivateRoute />}>
-              <Route path={customRoutes.main} element={<MainPage />} />
+              <Route path={routes.main} element={<MainPage />} />
 
-              <Route path={customRoutes.chart} element={<ChartPage />} />
+              <Route path={routes.chart} element={<ChartPage />} />
             </Route>
 
-            <Route path={customRoutes.login} element={<LoginPage />} />
+            <Route path={routes.login} element={<LoginPage />} />
 
-            <Route path={customRoutes.signup} element={<SignupPage />} />
+            <Route path={routes.signup} element={<SignupPage />} />
           </Routes>
         </AppProvider>
       </Provider>

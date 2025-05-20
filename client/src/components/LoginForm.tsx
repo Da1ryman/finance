@@ -8,7 +8,7 @@ import {
 import { fetchUserLogin } from '../store/user/action';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { customRoutes } from '../routes';
+import { routes } from '../routes';
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -51,7 +51,7 @@ export const LoginForm = () => {
         <br />
         Если у вас нет аккаунта нажмите{' '}
         <Link
-          onClick={() => handleNavigate(customRoutes.signup)}
+          onClick={() => handleNavigate(routes.signup)}
           sx={{ cursor: 'pointer' }}
         >
           сюда.

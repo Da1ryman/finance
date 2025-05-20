@@ -8,7 +8,7 @@ import {
 import { fetchUserSignup } from '../store/user/action';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { customRoutes } from '../routes';
+import { routes } from '../routes';
 import { useEffect } from 'react';
 
 export const SignupForm = () => {
@@ -18,11 +18,11 @@ export const SignupForm = () => {
   const { loadingAuth, authInfo } = useAppSelector((state) => state.user);
 
   const handleNavigate = () => {
-    navigate(customRoutes.login);
+    navigate(routes.login);
   };
   useEffect(() => {
     if (authInfo) {
-      navigate(customRoutes.main);
+      navigate(routes.main);
     }
   }, [authInfo, navigate]);
 
