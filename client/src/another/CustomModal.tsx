@@ -1,4 +1,9 @@
-import { Box, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
 import type { JSX } from 'react';
 
 interface ModalProps {
@@ -20,7 +25,7 @@ export const CustomModal = ({
     <Dialog open={dialogOpen} onClose={dialogClose}>
       <DialogTitle>{title}</DialogTitle>
 
-      <Box sx={{ p: 2 }}>{content}</Box>
+      <DialogContent sx={{ p: 2 }}>{content}</DialogContent>
 
       <DialogActions>{action}</DialogActions>
     </Dialog>

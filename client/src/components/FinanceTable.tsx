@@ -16,9 +16,18 @@ export const FinanceTable = () => {
   const authInfo = useAppSelector((state) => state.user.authInfo);
   const dispatch = useAppDispatch();
 
+  const titles = [
+    'Тип',
+    'Категория',
+    'Описание',
+    'Сумма',
+    'Дата записи/обновления',
+    'Изменить',
+  ];
+
   useEffect(() => {
     if (authInfo?.id) {
-      dispatch(fetchFinanceHistory(authInfo.id));
+      dispatch(fetchFinanceHistory());
     }
   }, [authInfo, dispatch]);
 
@@ -26,19 +35,9 @@ export const FinanceTable = () => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell sx={{ textAlign: 'center' }}>Тип</TableCell>
-
-          <TableCell sx={{ textAlign: 'center' }}>Категория</TableCell>
-
-          <TableCell sx={{ textAlign: 'center' }}>Описание</TableCell>
-
-          <TableCell sx={{ textAlign: 'center' }}>Сумма</TableCell>
-
-          <TableCell sx={{ textAlign: 'center' }}>
-            Дата записи/обновления
-          </TableCell>
-
-          <TableCell sx={{ textAlign: 'center' }}>Изменить</TableCell>
+          {titles.map((title) => (
+            <TableCell sx={{ textAlign: 'center' }}>{title}</TableCell>
+          ))}
         </TableRow>
       </TableHead>
 

@@ -7,71 +7,35 @@ import {
   InputAdornment,
   CircularProgress,
 } from '@mui/material';
-import { useAppSelector, useAppDispatch } from '../store/store';
-import { useState } from 'react';
-import type { Finance } from '../types/finance';
-import { fetchFinanceChange } from '../store/finance/action';
+import { useAppSelector } from '../store/store';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DialogDelete } from './DialogDelete';
+import { CustomModal } from '../another/CustomModal';
+import { useDeleteFinance } from '../hooks/finance/useDeleteFinance';
+import { DeleteFinanceAction } from './DeleteFinanceAction';
+import { useChangeFinance } from '../hooks/finance/useChangeFinance';
 
 export const FinanceTableItem = () => {
   const { financeHistory, loading } = useAppSelector((state) => state.finance);
-  const dispatch = useAppDispatch();
 
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editedFields, setEditedFields] = useState<Partial<Finance>>({});
-  const [isSaving, setIsSaving] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  const {
+    editedFields,
+    editingId,
+    isSaving,
+    handleEditClick,
+    handleCancelEdit,
+    handleSaveChanges,
+    handleFieldChange,
+  } = useChangeFinance();
 
-  const handleEditClick = (item: Finance) => {
-    setEditingId(item._id);
-    setEditedFields({
-      type: item.type,
-      category: item.category,
-      description: item.description,
-      amount: item.amount,
-    });
-  };
-
-  const handleCancelEdit = () => {
-    setEditingId(null);
-    setEditedFields({});
-  };
-
-  const handleSaveChanges = async (originalItem: Finance) => {
-    if (!editingId || Object.keys(editedFields).length === 0) return;
-
-    try {
-      setIsSaving(true);
-      const updatedItem = {
-        ...originalItem,
-        ...editedFields,
-      };
-      await dispatch(fetchFinanceChange(updatedItem)).unwrap();
-      setEditingId(null);
-      setEditedFields({});
-    } catch (error) {
-      console.error('Failed to save changes:', error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleFieldChange = (field: keyof Finance, value: string | number) => {
-    setEditedFields((prev) => ({
-      ...prev,
-      [field]: field === 'amount' ? Number(value) : value,
-    }));
-  };
-
-  const handleDeleteClick = (id: string) => {
-    setItemToDelete(id);
-    setDeleteDialogOpen(true);
-  };
+  const {
+    removeDialogOpen,
+    handleDeleteClick,
+    handleConfirmDelete,
+    handleDeleteDialogClose,
+  } = useDeleteFinance();
 
   return (
     <>
@@ -192,11 +156,16 @@ export const FinanceTableItem = () => {
         </TableRow>
       ))}
 
-      <DialogDelete
-        setDeleteDialogOpen={setDeleteDialogOpen}
-        setItemToDelete={setItemToDelete}
-        deleteDialogOpen={deleteDialogOpen}
-        itemToDelete={itemToDelete}
+      <CustomModal
+        dialogClose={handleDeleteDialogClose}
+        dialogOpen={removeDialogOpen}
+        action={
+          <DeleteFinanceAction
+            handleDeleteDialogClose={handleDeleteDialogClose}
+            handleConfirmDelete={handleConfirmDelete}
+          />
+        }
+        title='Удалить эту запись?'
       />
     </>
   );

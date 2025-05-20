@@ -2,13 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 import authService from '../service/auth.service';
 
 class AuthMiddleware {
-  async checkingJWT(req: Request, res: Response, next: NextFunction) {
+  checkingJWT(req: Request, res: Response, next: NextFunction) {
     try {
       const auth = req.headers.authorization;
 
       if (auth && auth.startsWith('Bearer')) {
         const token = auth.slice(7);
-        await authService.verifyToken(token);
+        authService.verifyToken(token);
 
         next();
       } else {

@@ -2,9 +2,15 @@ import { IFinance } from '../dto/finance.dto';
 import { Finance } from '../models/finance.model';
 
 class FinanceService {
-  async create(finance: IFinance) {
+  async create(finance: Omit<IFinance, 'userId'>, userId: string) {
     try {
-      const newFinance = await Finance.create(finance);
+      const newFinance = await Finance.create({
+        userId,
+        type: finance.type,
+        description: finance.description,
+        category: finance.category,
+        amount: finance.amount,
+      });
 
       return newFinance;
     } catch (error) {

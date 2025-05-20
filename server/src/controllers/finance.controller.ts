@@ -1,14 +1,19 @@
 import { Request, Response } from 'express';
 import financeService from '../service/finance.service';
 import { IFinance } from '../dto/finance.dto';
+import authService from '../service/auth.service';
 
 class FinanceController {
   async getAllByUserId(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
-      const finance = await financeService.historyUser(userId);
+      const token = req.headers.authorization?.slice(7);
 
-      res.json(finance);
+      if (token) {
+        const userId = authService.getUserIdByToken(token);
+        const finance = await financeService.historyUser(userId);
+
+        res.json(finance);
+      }
     } catch (error) {
       res.status(500).json(error);
     }
@@ -16,10 +21,15 @@ class FinanceController {
 
   async postFinance(req: Request, res: Response) {
     try {
-      const finance: IFinance = req.body;
-      const newFinance = await financeService.create(finance);
+      const token = req.headers.authorization?.slice(7);
+      if (token) {
+        const userId = authService.getUserIdByToken(token);
+        const finance: Omit<IFinance, 'userId'> = req.body;
 
-      res.json(newFinance);
+        const newFinance = await financeService.create(finance, userId);
+
+        res.json(newFinance);
+      }
     } catch (error) {
       res.status(500).json(error);
     }
@@ -42,10 +52,14 @@ class FinanceController {
 
   async deleteAll(req: Request, res: Response) {
     try {
-      const { userId } = req.body;
-      const deleteAll = await financeService.deleteAllById(userId);
+      const token = req.headers.authorization?.slice(7);
 
-      res.json(deleteAll);
+      if (token) {
+        const userId = authService.getUserIdByToken(token);
+        const deleteAll = await financeService.deleteAllById(userId);
+
+        res.json(deleteAll);
+      }
     } catch (error) {
       res.status(500).json(error);
     }

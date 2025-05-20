@@ -1,43 +1,35 @@
 import { CircularProgress, Container, Paper, Button, Box } from '@mui/material';
 import { useAppSelector } from '../store/store';
-import { useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import type { FinanceRequest } from '../types/finance';
 import { FinanceTable } from './FinanceTable';
-import { DialogDeleteAll } from './DialogDeleteAll';
-import { DialogCreate, type FinanceRequestWithoutUserId } from './DialogCreate';
+import { useCreateFinance } from '../hooks/finance/useCraeteFinance';
+import { CreateFinance } from './CreateFinance';
+import { CustomModal } from '../another/CustomModal';
+import { CreateFinanceAction } from './CreateFinanceAction';
+import { useDeleteAllFinance } from '../hooks/finance/useDeleteAllFinance';
+import { DeleteAllFinanceAction } from './DeleteAllFinanceAction';
 
 export const FinanceComponent = () => {
   const { loading, financeHistory } = useAppSelector((state) => state.finance);
-  const [addDialogOpen, setAddDialogOpen] = useState(false);
-  const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
-  const [isCreating, setIsCreating] = useState(false);
-  const [isDeletingAll, setIsDeletingAll] = useState(false);
-  const [newFinance, setNewFinance] = useState<FinanceRequestWithoutUserId>({
-    type: '',
-    category: '',
-    description: '',
-    amount: 0,
-  });
 
-  const handleDeleteAllClick = () => {
-    setDeleteAllDialogOpen(true);
-  };
+  const {
+    removeAllDialogOpen,
+    isRemovingAll,
+    handleDeleteAllClick,
+    handleDeleteAllDialogClose,
+    handleConfirmDeleteAll,
+  } = useDeleteAllFinance();
 
-  const handleAddClick = () => {
-    setAddDialogOpen(true);
-  };
-
-  const handleFieldChange = (
-    field: keyof FinanceRequest,
-    value: string | number,
-  ) => {
-    setNewFinance((prev) => ({
-      ...prev,
-      [field]: field === 'amount' ? Number(value) : value,
-    }));
-  };
+  const {
+    newFinance,
+    isCreating,
+    handleFieldChange,
+    handleCreateFinance,
+    addDialogOpen,
+    handleAddDialogClose,
+    handleAddDialogOpen,
+  } = useCreateFinance();
 
   return (
     <Container sx={{ mt: 10 }}>
@@ -47,7 +39,7 @@ export const FinanceComponent = () => {
             variant='outlined'
             color='primary'
             startIcon={<AddIcon />}
-            onClick={handleAddClick}
+            onClick={handleAddDialogOpen}
             disabled={loading}
           >
             Добавить запись
@@ -57,14 +49,14 @@ export const FinanceComponent = () => {
             variant='outlined'
             color='error'
             startIcon={
-              isDeletingAll ? (
+              isRemovingAll ? (
                 <CircularProgress size={24} color='inherit' />
               ) : (
                 <DeleteForeverIcon />
               )
             }
             onClick={handleDeleteAllClick}
-            disabled={financeHistory.length === 0 || loading || isDeletingAll}
+            disabled={financeHistory.length === 0 || loading || isRemovingAll}
           >
             Удалить все записи
           </Button>
@@ -73,21 +65,38 @@ export const FinanceComponent = () => {
         <FinanceTable />
       </Paper>
 
-      <DialogCreate
-        setNewFinance={setNewFinance}
-        setAddDialogOpen={setAddDialogOpen}
-        setIsCreating={setIsCreating}
-        isCreating={isCreating}
-        addDialogOpen={addDialogOpen}
-        newFinance={newFinance}
-        handleFieldChange={handleFieldChange}
+      <CustomModal
+        title='Добавить новую запись?'
+        dialogOpen={addDialogOpen}
+        dialogClose={handleAddDialogClose}
+        content={
+          <CreateFinance
+            isPending={isCreating}
+            handleFieldChange={handleFieldChange}
+            newFinance={newFinance}
+          />
+        }
+        action={
+          <CreateFinanceAction
+            handleAddDialogClose={handleAddDialogClose}
+            isCreating={isCreating}
+            newFinance={newFinance}
+            handleCreateFinance={handleCreateFinance}
+          />
+        }
       />
 
-      <DialogDeleteAll
-        deleteAllDialogOpen={deleteAllDialogOpen}
-        setDeleteAllDialogOpen={setDeleteAllDialogOpen}
-        isDeletingAll={isDeletingAll}
-        setIsDeletingAll={setIsDeletingAll}
+      <CustomModal
+        title='Удалить все записи?'
+        dialogOpen={removeAllDialogOpen}
+        dialogClose={handleDeleteAllDialogClose}
+        action={
+          <DeleteAllFinanceAction
+            handleDeleteAllDialogClose={handleDeleteAllDialogClose}
+            isRemovingAll={isRemovingAll}
+            handleConfirmDeleteAll={handleConfirmDeleteAll}
+          />
+        }
       />
     </Container>
   );

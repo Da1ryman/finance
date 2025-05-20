@@ -3,10 +3,10 @@ export type FinanceRequest = {
   category: string;
   description: string;
   amount: number;
-  userId: string;
 };
 
 export type Finance = FinanceRequest & {
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
   _id: string;
