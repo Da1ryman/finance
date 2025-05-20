@@ -27,7 +27,11 @@ import {
 } from './SidePanelLayout.style';
 import { routes } from '../../routes';
 
-export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
+export const SidePanelLayout = ({
+  children,
+}: {
+  children: JSX.Element | JSX.Element[];
+}) => {
   const [open, setOpen] = useState(true);
   const [activeItem, setActiveItem] = useState<string | null>(null);
 
