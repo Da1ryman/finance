@@ -14,7 +14,7 @@ import PieChartIcon from '@mui/icons-material/PieChart';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AreaChartIcon from '@mui/icons-material/AreaChart';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { useState, type JSX } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { logout } from '../../store/user/slice';
@@ -27,7 +27,7 @@ import {
 } from './SidePanelLayout.style';
 import { routes } from '../../routes';
 
-export const SidePanelLayout = ({ children }: { children: JSX.Element }) => {
+export const SidePanelLayout = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState(true);
   const [activeItem, setActiveItem] = useState<string | null>(null);
 

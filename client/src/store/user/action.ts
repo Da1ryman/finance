@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { LoginUserData, SignupUserData } from '../../types/auth';
 import { loginUser, signupUser } from '../../api/FinanceApi';
-import { errorHandling } from '../../helper/errorHandling';
+import { errorHandling } from '../../helpers/errorHandling';
 
 export const fetchUserLogin = createAsyncThunk(
   'user/fetchUserLogin',

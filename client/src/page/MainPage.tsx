@@ -11,18 +11,12 @@ export const MainPage = () => {
 
   return (
     <SidePanelLayout>
-      <>
-        <Typography
-          variant='h2'
-          component='h1'
-          sx={{ mt: '100px', ml: '100px' }}
-        >
-          <BackupTableIcon sx={{ fontSize: '50px' }} /> Таблица{' '}
-          {financeHistory.length}
-        </Typography>
+      <Typography variant='h2' component='h1' sx={{ mt: '100px', ml: '100px' }}>
+        <BackupTableIcon sx={{ fontSize: '50px' }} /> Таблица{' '}
+        {financeHistory.length}
+      </Typography>
 
-        <FinanceComponent />
-      </>
+      <FinanceComponent />
     </SidePanelLayout>
   );
 };
