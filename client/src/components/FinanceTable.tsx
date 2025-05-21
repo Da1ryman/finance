@@ -3,33 +3,25 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
 } from '@mui/material';
 import { FinanceTableItem } from './FinanceTableItem';
-import { useAppDispatch, useAppSelector } from '../store/store';
-import { useEffect } from 'react';
-import { fetchFinanceHistory } from '../store/finance/action';
+import { usePaginationFinance } from '../hooks/finance/usePaginationFinance';
 
 export const FinanceTable = () => {
-  const loading = useAppSelector((state) => state.finance.loading);
-  const authInfo = useAppSelector((state) => state.user.authInfo);
-  const dispatch = useAppDispatch();
-
-  const titles = [
-    'Тип',
-    'Категория',
-    'Описание',
-    'Сумма',
-    'Дата записи/обновления',
-    'Изменить',
-  ];
-
-  useEffect(() => {
-    if (authInfo?.id) {
-      dispatch(fetchFinanceHistory());
-    }
-  }, [authInfo, dispatch]);
+  const {
+    loading,
+    titles,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    emptyRows,
+    page,
+    financeHistory,
+    rowsPerPage,
+  } = usePaginationFinance();
 
   return (
     <Table>
@@ -49,9 +41,35 @@ export const FinanceTable = () => {
             </TableCell>
           </TableRow>
         ) : (
-          <FinanceTableItem />
+          <>
+            {financeHistory
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((finance) => (
+                <FinanceTableItem key={finance._id} finance={finance} />
+              ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </>
         )}
       </TableBody>
+
+      <TableFooter>
+        <TableRow>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            colSpan={6}
+            count={financeHistory.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage='Записей на странице:'
+          />
+        </TableRow>
+      </TableFooter>
     </Table>
   );
 };
