@@ -1,5 +1,5 @@
-import { createChartData } from '../../helper/createChartData';
-import { filterDataByType } from '../../helper/filterDataByType';
+import { createChartData } from '../../helpers/createChartData';
+import { filterDataByType } from '../../helpers/filterDataByType';
 import { useAppSelector } from '../../store/store';
 
 export const useChartFinance = () => {

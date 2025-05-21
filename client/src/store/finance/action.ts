@@ -7,7 +7,7 @@ import {
   putFinanceById,
 } from '../../api/FinanceApi';
 import type { Finance, FinanceRequest } from '../../types/finance';
-import { errorHandling } from '../../helper/errorHandling';
+import { errorHandling } from '../../helpers/errorHandling';
 
 export const fetchFinanceHistory = createAsyncThunk(
   'finance/fetchFinanceHistory',
